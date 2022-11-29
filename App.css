@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --Color1: black;
+    --Color2: white;
+    --Fuentesize: 35px;
+    --backgroud1: rgba(0,0,0,0.5);
+    --backgroud2: rgba(107, 8, 228, 0.5);
+}
+
+header{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--Fuentesize);
+    border:1px solid var(--Color1);
+    background: var(--Color1);
+    color:var(--Color2);
+}
+ 
+.Mapa-ESRI{
+    width: 100%;
+    height: 600px;
+    position: relative;
+}
+
+.datos{
+    position: absolute;
+    right: 0;
+    top:100px;
+    width: 300px;
+    height: 80px;
+    background: var(--backgroud2);
+    color: white;
+}
+.datos > h2{
+    text-align: center;
+}
+
+@media (max-width:768px){
+    header{
+        width: 100%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        border:1px solid var(--Color1);
+        background: var(--Color1);
+        color:var(--Color2);
+    }
+
+    .Mapa-ESRI{
+        width: 100%;
+        height: 700px;
+        position: relative;
+    }
+
+}
