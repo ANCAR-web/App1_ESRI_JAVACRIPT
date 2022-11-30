@@ -58,7 +58,7 @@ require(["esri/config",
           //agregamos una capa del portal o de arcgis online pasamos como parametro el url de arcgis server
           //primero agregar un objeto que almacenara las propiedades y campos para hacer un popup
           const Popup_predios = {
-            "title":"{clave_cat}",
+            "title":"Clave catastral: {clave_cat}",
             "content":[{
                 "type":"fields",
                 "fieldInfos":[
@@ -107,15 +107,6 @@ require(["esri/config",
                         "stringFieldOption": "text-box"
                     },
                     {
-                        "fieldName": "nom_col",
-                        "label": "Nombre colonia",
-                        "isEditable": true,
-                        "tooltip": "",
-                        "visible": true,
-                        "format": null,
-                        "stringFieldOption": "text-box"
-                    },
-                    {
                         "fieldName": "zon_21",
                         "label": "Zona",
                         "isEditable": true,
@@ -135,7 +126,7 @@ require(["esri/config",
                           "type": "simple-fill",
                           "style": "solid",
                           "outline": {
-                            "style": "none"}},
+                            "style": "1px solid black"}},
                 "label": value}};
         //creamos un objeto que tendra una propiedad que recibe la funcion lote creada
         const estilo_lote = {
@@ -155,31 +146,29 @@ require(["esri/config",
         map.add(Lotes_Kennedy,0);
       
         
-const array_hotel = ["Escoge ubicaciones...","Parks and Outdoors", "Coffee shop", "Gas station", "Food", "Hotel"];
-const contenedor_hoteles = document.createElement("select"," ");
-contenedor_hoteles.setAttribute("class","contenedor_hoteles");
-contenedor_hoteles.setAttribute("style",`
-width:200px; 
-heigth:150px;
-font-family: 'Avenir Next W00';
-font-size:1rem;
-color:white;
-background-color:rgba(0,0,0,0.9);`);
-array_hotel.forEach((p)=>{
-    const parrafo = document.createElement("option");
-    parrafo.innerHTML = p;
-    contenedor_hoteles.value = p;
-    contenedor_hoteles.appendChild(parrafo);
- 
-});
-view.ui.add(contenedor_hoteles,"bottom-left");
+       const array_hotel = ["Escoge ubicaciones...","Parks and Outdoors", "Coffee shop", "Gas station", "Food", "Hotel"];
+       const contenedor_hoteles = document.createElement("select"," ");
+       contenedor_hoteles.setAttribute("class","contenedor_hoteles");
+       contenedor_hoteles.setAttribute("style",`
+                                              width:200px; 
+                                              heigth:150px;
+                                              font-family: 'Avenir Next W00';
+                                              font-size:1rem;
+                                              color:white;
+                                              background-color:rgba(0,0,0,0.9);`);
+      array_hotel.forEach((p)=>{
+      const parrafo = document.createElement("option");
+      parrafo.innerHTML = p;
+      contenedor_hoteles.value = p;
+      contenedor_hoteles.appendChild(parrafo);});
+      view.ui.add(contenedor_hoteles,"bottom-left");
 
-const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-const findplaces1 = (category, pt)=>{
+     const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+     const findplaces1 = (category, pt)=>{
     locator.addressToLocations(locatorUrl,{
         location: pt,
         categories: [category],
-        maxLocations: 35,
+        maxLocations: 100,
         outFields: ["Place_addr", "PlaceName"]})
         .then(function(results){
             view.popup.close();
