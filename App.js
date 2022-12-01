@@ -8,7 +8,9 @@ require(["esri/config",
          "esri/widgets/Locate",
          "esri/layers/FeatureLayer",
          "esri/rest/locator",
-         "esri/Graphic"],(
+         "esri/Graphic",
+         "esri/widgets/FeatureTable",
+         "esri/core/reactiveUtils"],(
             esriConfig,
             Map,
             MapView,
@@ -16,7 +18,9 @@ require(["esri/config",
             Locate,
             FeatureLayer,
             locator,
-            Graphic
+            Graphic,
+            FeatureTable,
+            reactiveUtils
          )=>{
         // mi apikey para poder usar los metodos de la libreria de esri 
         let apikey = "AAPKc0b5b552c4324dc29a90351172d2b735eM1eJrecMDQYEQZi4rnGIPsjY_Llxx1p0nXXbkHOEsxXmYiO6lqTiBkAGXsSplrm";
@@ -126,7 +130,7 @@ require(["esri/config",
                           "type": "simple-fill",
                           "style": "solid",
                           "outline": {
-                            "style": "1px solid black"}},
+                            "style": "dash"}},
                 "label": value}};
         //creamos un objeto que tendra una propiedad que recibe la funcion lote creada
         const estilo_lote = {
@@ -205,6 +209,87 @@ require(["esri/config",
     findplaces1(event.target.value, view.center);
   });
 
+  
+  view.when(()=>{
+
+    let selectedFeature,id ;
+    
+    Lotes_Kennedy.title = "Catastro de la Colonia Kennedy";
+    Lotes_Kennedy.outFields = ["*"];
+    const containertotal = document.getElementById("container-total-id");
+    const tableContainer = document.getElementById("tableContainer");
+    const tableDiv = document.getElementById("tableDiv");
+    const inputdata = document.getElementById("checkboxId");
+    const label = document.getElementById("label-esri");
+    const featureTable = new FeatureTable({
+        view: view, 
+        layer: Lotes_Kennedy,
+        tableTemplate: {
+          columnTemplates: [
+            {
+              type: "field",
+              fieldName: "sector",
+              label: "Sector",
+              direction: "asc"
+            },
+            {
+              type: "field",
+              fieldName: "manzana",
+              label: "Manzana"
+            },
+            {
+              type: "field",
+              fieldName: "lote",
+              label: "Lote"
+            },
+            {
+                type:"field",
+                fieldName: "clave_cat",
+                label:"Clave catastral"
+            }
+          ]
+        },
+        container: tableDiv
+      });
+      let widget = document.getElementById("inputdiv");
+      view.ui.add(widget, "top-right");
+      
+    const closetable = ()=>{
+        if (!inputdata.checked){
+            containermapvier.style.height = "600px";
+            containertotal.removeChild(tableContainer);
+            label.innerHTML = "Tabla quitada";
+
+        }
+        else{
+            containertotal.appendChild(tableContainer);
+            label.innerHTML = "Mirar tabla";
+            containermapvier.style.height = "400px";
+
+        }
+    };
+
+    inputdata.onchange = closetable;
+
+    reactiveUtils.watch(
+      () => view.popup.viewModel.active,
+      () => {
+        selectedFeature = view.popup.selectedFeature;
+        if (selectedFeature !== null && view.popup.visible !== false) {
+          featureTable.highlightIds.removeAll();
+          featureTable.highlightIds.add(
+            view.popup.selectedFeature.attributes.OBJECTID
+          );
+          id = selectedFeature.getObjectId();
+        }
+      }
+    );
+  });
+
+
+
+  });
+
 
                 
 
@@ -213,4 +298,3 @@ require(["esri/config",
 
 
 
-});

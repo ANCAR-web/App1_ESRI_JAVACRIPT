@@ -23,11 +23,43 @@ header{
     background: var(--Color1);
     color:var(--Color2);
 }
+.container-total{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+}
+.contenedor-input{
+    background-color: white;
+    width: 200px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.label-esri-class{
+    font-weight: bold;
+}
  
 .Mapa-ESRI{
     width: 100%;
-    height: 600px;
+    height: 400px;
     position: relative;
+}
+
+.tableContainer{
+    width: 100%;
+    height: 200px;
+    display: none;
+
+}
+.tableDiv{
+    width: 100%;
+    height: 100%;
 }
 
 .datos{
